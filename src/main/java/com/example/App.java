@@ -22,7 +22,7 @@ public class App
         ChromeOptions options = new ChromeOptions();
 
         // 🔥 Force system Chrome (NOT Selenium cache)
-        options.setBinary("/usr/bin/google-chrome");
+        options.setBinary("/usr/bin/google-chrome-stable");
 
         // 🔥 Jenkins-safe options
         options.addArguments("--headless=new");
