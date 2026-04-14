@@ -16,13 +16,13 @@ public class App
     public static void main(String[] args) throws InterruptedException
     {
         // 🔥 Force correct driver and avoid Selenium cache issues
-        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+        
         System.setProperty("webdriver.chrome.silentOutput", "true");
 
         ChromeOptions options = new ChromeOptions();
 
         // 🔥 Force system Chrome (NOT Selenium cache)
-        options.setBinary("/usr/bin/google-chrome-stable");
+        options.setBinary("/snap/bin/chromium");
 
         // 🔥 Jenkins-safe options
         options.addArguments("--headless=new");
