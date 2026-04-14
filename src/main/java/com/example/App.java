@@ -15,22 +15,26 @@ public class App
 {
     public static void main(String[] args) throws InterruptedException
     {
+        // 🔥 Force correct driver and avoid Selenium cache issues
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+        System.setProperty("webdriver.chrome.silentOutput", "true");
+
         ChromeOptions options = new ChromeOptions();
 
-        // Headless + Jenkins fixes
+        // 🔥 Force system Chrome (NOT Selenium cache)
+        options.setBinary("/usr/bin/google-chrome");
+
+        // 🔥 Jenkins-safe options
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
         options.addArguments("--remote-allow-origins=*");
 
-        
-        options.addArguments("--user-data-dir=/tmp/chrome-user-data");
-        options.addArguments("--data-path=/tmp/chrome-data");
-        options.addArguments("--disk-cache-dir=/tmp/chrome-cache");
-
-        
-        options.setBinary("/usr/bin/google-chrome");
+        // 🔥 Fix DevToolsActivePort error
+        options.addArguments("--user-data-dir=/tmp/chrome-" + System.currentTimeMillis());
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--disable-software-rasterizer");
 
         WebDriver driver = new ChromeDriver(options);
 
@@ -48,7 +52,7 @@ public class App
 
         Thread.sleep(2000);
 
-        // Open second tab
+        // 🔹 Open second tab
         driver.switchTo().newWindow(WindowType.TAB);
         driver.get("https://practicetestautomation.com/practice-test-login/");
 
@@ -63,7 +67,7 @@ public class App
 
         Thread.sleep(2000);
 
-        // Open third tab
+        // 🔹 Open third tab
         driver.switchTo().newWindow(WindowType.TAB);
         driver.get("https://automationexercise.com/");
 
