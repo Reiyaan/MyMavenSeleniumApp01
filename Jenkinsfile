@@ -37,7 +37,7 @@ pipeline {
     post {
         sucess {
             // Always try to kill processes so the next build starts fresh
-            sh 'Build sucessful'
+            echo 'Build sucessful'
         }
         failure {
             echo 'Build failed'
