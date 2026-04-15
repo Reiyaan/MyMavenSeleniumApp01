@@ -6,13 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Cleanup') {
-            steps {
-                // Kill any hanging browser processes from previous failed runs
-                sh 'pkill -f chromium || true'
-                sh 'pkill -f chromedriver || true'
-            }
-        }
 
         stage('Checkout') {
             steps {
@@ -20,25 +13,34 @@ pipeline {
             }
         }
 
-        stage('Build & Test') {
+        stage('Build') {
             steps {
                 // Combine these to save time
-                sh 'mvn clean package -DskipTests' 
+                sh 'mvn clean package' 
             }
         }
 
-        stage('Run Selenium') {
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Run Application') {
             steps {
                 // The use of double quotes handles the mainClass property better
-                sh "mvn exec:java -Dexec.mainClass='com.example.App' -Dexec.cleanupDaemonThreads=false"
+                sh 'java -jar target/MyMavenSeleniumApp01-1.0-SNAPSHOT.jar'
             }
         }
     }
 
     post {
-        always {
+        sucess {
             // Always try to kill processes so the next build starts fresh
-            sh 'pkill -f chromium || true'
+            sh 'Build sucessful'
+        }
+        failure {
+            echo 'Build failed'
         }
     }
 }
