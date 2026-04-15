@@ -18,7 +18,7 @@ public class App
         
         ChromeOptions options = new ChromeOptions();
         
-        options.setBinary("/opt/chrome145/chrome");
+        
         
         
         options.addArguments("--no-sandbox");
