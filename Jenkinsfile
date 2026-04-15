@@ -29,7 +29,7 @@ pipeline {
         stage('Run Application') {
             steps {
                 // The use of double quotes handles the mainClass property better
-                sh 'java -jar target/MyMavenSeleniumApp01-1.0-SNAPSHOT.jar'
+                sh 'xvfb-run mvn exec:java -Dexec.mainClass=com.example.App'
             }
         }
     }
