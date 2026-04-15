@@ -23,11 +23,13 @@ public class App
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--remote-allow-origins=*"); 
+        options.addArguments("--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(options);   
 
         driver.get("https://www.saucedemo.com/");
-        driver.manage().window().maximize();
+        //driver.manage().window().maximize();
 
         Thread.sleep(2000);
         driver.findElement(By.id("user-name")).sendKeys("standard_user");
