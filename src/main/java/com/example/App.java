@@ -1,11 +1,11 @@
 package com.example;
 
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;   // ✅ ADDED
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,13 +15,7 @@ public class App
 {
     public static void main(String[] args) throws InterruptedException
     {
-        // ✅ IMPORTANT: Headless setup for Jenkins
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-
-        WebDriver driver = new ChromeDriver(options);   // ✅ FIXED
+        WebDriver driver = new ChromeDriver();
 
         driver.get("https://www.saucedemo.com/");
         driver.manage().window().maximize();
@@ -40,9 +34,11 @@ public class App
         // Open new tab
         driver.switchTo().newWindow(WindowType.TAB);
 
+        // Add the website link you want to open here
         driver.get("https://practicetestautomation.com/practice-test-login/");
 
         Thread.sleep(2000);
+        
         driver.findElement(By.id("username")).sendKeys("student");
 
         Thread.sleep(2000);
@@ -50,39 +46,49 @@ public class App
 
         Thread.sleep(2000);
         driver.findElement(By.id("submit")).click();
-
+        
         Thread.sleep(2000);
 
         // Open new tab
         driver.switchTo().newWindow(WindowType.TAB);
 
+        // Add the website link you want to open here
         driver.get("https://automationexercise.com/");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        try {
-            wait.until(ExpectedConditions.elementToBeClickable(By.id("dismiss-button"))).click();
-        } catch (Exception e) {
-            System.out.println("No ad appeared");
-        }
+// Handle ad if it appears
+try {
+    wait.until(ExpectedConditions.elementToBeClickable(By.id("dismiss-button"))).click();
+} catch (Exception e) {
+    System.out.println("No ad appeared");
+}
 
-        WebElement addToCart = wait.until(
-            ExpectedConditions.presenceOfElementLocated(By.cssSelector("a[data-product-id='2']"))
-        );
+// Wait for product and click Add to Cart
+// wait for add to cart button
+WebElement addToCart = wait.until(
+    ExpectedConditions.presenceOfElementLocated(By.cssSelector("a[data-product-id='2']"))
+);
 
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", addToCart);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", addToCart);
+// scroll to element
+((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", addToCart);
 
-        wait.until(ExpectedConditions.elementToBeClickable(
-            By.xpath("//u[text()='View Cart']")
-        )).click();
+// click using JavaScript to avoid ad interception
+((JavascriptExecutor) driver).executeScript("arguments[0].click();", addToCart);
 
-        try {
-            wait.until(ExpectedConditions.elementToBeClickable(By.id("dismiss-button"))).click();
-        } catch (Exception e) {
-            System.out.println("No ad appeared after cart");
-        }
+// Handle modal popup and click View Cart
+wait.until(ExpectedConditions.elementToBeClickable(
+        By.xpath("//u[text()='View Cart']")
+)).click();
 
-        driver.quit();   // ✅ IMPORTANT (cleanup)
+// Handle ad again if it appears
+try {
+    wait.until(ExpectedConditions.elementToBeClickable(By.id("dismiss-button"))).click();
+} catch (Exception e) {
+    System.out.println("No ad appeared after cart");
+}
+        
+        
+
     }
 }
