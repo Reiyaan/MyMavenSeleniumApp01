@@ -30,7 +30,7 @@ pipeline {
         stage('Run Selenium') {
             steps {
                 // The use of double quotes handles the mainClass property better
-                sh "mvn exec:java -Dexec.mainClass='com.example.App'"
+                sh "mvn exec:java -Dexec.mainClass='com.example.App' -Dexec.cleanupDaemonThreads=false"
             }
         }
     }
