@@ -19,17 +19,17 @@ public class App
         ChromeOptions options = new ChromeOptions();
         
         
-        options.setBinary("/snap/bin/chromium");
+        
         
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--disable-gpu");
+        
 
         WebDriver driver = new ChromeDriver(options);   
 
         driver.get("https://www.saucedemo.com/");
-        //driver.manage().window().maximize();
+        driver.manage().window().maximize();
 
         Thread.sleep(2000);
         driver.findElement(By.id("user-name")).sendKeys("standard_user");
