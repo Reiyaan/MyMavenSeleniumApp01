@@ -19,14 +19,12 @@ public class App
         ChromeOptions options = new ChromeOptions();
         
         
-        //options.setBinary("/usr/bin/chromium-browser");
-        options.addArguments("--user-data-dir=/tmp/chrome-profile" + System.currentTimeMillis());
+        options.setBinary("/snap/bin/chromium");
+        
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--remote-allow-origins=*"); 
-        options.addArguments("--window-size=1920,1080");
-        options.addArguments("--remote-debugging-port=9222");
+        options.addArguments("--disable-gpu");
 
         WebDriver driver = new ChromeDriver(options);   
 
